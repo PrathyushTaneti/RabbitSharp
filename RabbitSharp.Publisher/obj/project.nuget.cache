@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "DTTbsXhBxLs=",
+  "success": true,
+  "projectFilePath": "/home/prathyushtaneti/Workspace/csharp/projects/RabbitSharp/RabbitSharp.Publisher/RabbitSharp.Publisher.csproj",
+  "expectedPackageFiles": [
+    "/home/prathyushtaneti/.nuget/packages/microsoft.aspnetcore.openapi/10.0.12/microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "/home/prathyushtaneti/.nuget/packages/microsoft.openapi/2.12.0/microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}

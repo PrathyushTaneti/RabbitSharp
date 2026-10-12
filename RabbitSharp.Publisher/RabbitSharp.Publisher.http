@@ -1,0 +1,6 @@
+@RabbitSharp.Publisher_HostAddress = http://localhost:5040
+
+GET {{RabbitSharp.Publisher_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
