@@ -1,2 +1,5 @@
 <Solution>
+  <Project Path="RabbitSharp.Buffer/RabbitSharp.Buffer.csproj" />
+  <Project Path="RabbitSharp.Publisher/RabbitSharp.Publisher.csproj" />
+  <Project Path="RabbitSharp.Subscriber/RabbitSharp.Subscriber.csproj" />
 </Solution>
