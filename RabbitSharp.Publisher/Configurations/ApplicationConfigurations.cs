@@ -1,15 +1,18 @@
+using RabbitSharp.Publisher.HostedServices;
+using RabbitSharp.Publisher.Publishers;
+
 namespace RabbitSharp.Publisher.Configurations;
 
 public static class ApplicationConfigurations
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddConfigurations()
+        public IServiceCollection AddConfigurations(IConfiguration configuration)
         {
             services
                 .AddOpenApi()
-                .AddOptions<RabbitMQConnectionFactory>()
-                .BindConfiguration("RabbitMQConnectionFactory")
+                .AddOptions<RabbitMqConnectionConfiguration>()
+                .BindConfiguration("RabbitMqConnectionConfiguration")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             return services;
@@ -24,6 +27,15 @@ public static class ApplicationConfigurations
                 options.ShutdownTimeout = TimeSpan.FromMinutes(5);
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.StopHost;
             });
+            return services;
+        }
+
+
+        public IServiceCollection AddConnection()
+        {
+            services.AddSingleton<MessageQueueConnectionBuilder>();
+            services.AddHostedService<MessageQueueConnectionWorker>();
+            services.AddScoped<IPublisherService, PublisherService>();
             return services;
         }
     }

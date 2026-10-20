@@ -10,8 +10,9 @@ internal sealed class Program
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args: args);
         {
             builder.Services
-                .AddConfigurations()
-                .ConfigureHostOptions();
+                .AddConfigurations(builder.Configuration)
+                .ConfigureHostOptions()
+                .AddConnection();
             builder.Logging.ConfigureConsoleLogging();
         }
 

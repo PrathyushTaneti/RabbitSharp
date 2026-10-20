@@ -10,13 +10,10 @@ public class Worker(ILogger<Worker> logger, IOptions<RabbitMQConnectionFactory> 
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using PeriodicTimer periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        using PeriodicTimer periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(40));
         while (stoppingToken.IsCancellationRequested is false &&
                await periodicTimer.WaitForNextTickAsync(stoppingToken))
         {
-            CancellationTokenSource cancellationTokenSource = new();
-            cancellationTokenSource.CancelAfter(delay: TimeSpan.FromMinutes(minutes: 5));
-
             ConnectionFactory connectionFactory = new()
             {
                 HostName = options.Value.HostName,
@@ -27,23 +24,22 @@ public class Worker(ILogger<Worker> logger, IOptions<RabbitMQConnectionFactory> 
             };
 
             await using IConnection connection =
-                await connectionFactory.CreateConnectionAsync(cancellationToken: cancellationTokenSource.Token);
+                await connectionFactory.CreateConnectionAsync(cancellationToken: stoppingToken);
 
             await using IChannel channel =
-                await connection.CreateChannelAsync(cancellationToken: cancellationTokenSource.Token);
+                await connection.CreateChannelAsync(cancellationToken: stoppingToken);
 
             await channel.QueueDeclareAsync(
                 queue: "samplequeue",
-                durable: true,
+                durable: false,
                 exclusive: false,
-                autoDelete: false,
                 arguments: new Dictionary<string, object?>()
                 {
                     {
                         "x-queue-type", "quorum"
                     }
                 },
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationToken: stoppingToken);
 
 
             logger.LogInformation("[*] Waiting for messages");
@@ -62,6 +58,9 @@ public class Worker(ILogger<Worker> logger, IOptions<RabbitMQConnectionFactory> 
 
                 return Task.CompletedTask;
             };
+
+            await channel.BasicConsumeAsync("samplequeue", autoAck: true, consumer: consumer,
+                cancellationToken: stoppingToken);
         }
     }
 }
