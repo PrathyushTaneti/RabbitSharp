@@ -1,3 +1,5 @@
+using RabbitSharp.Buffer.Configurations;
+
 namespace RabbitSharp.Subscriber.Configurations;
 
 public static class ApplicationConfigurations
@@ -7,8 +9,8 @@ public static class ApplicationConfigurations
         public IServiceCollection AddConfigurations()
         {
             services.AddHostedService<Worker>()
-                .AddOptions<RabbitMQConnectionFactory>()
-                .BindConfiguration("RabbitMQConnectionFactory")
+                .AddOptions<RabbitMqConnectionConfiguration>()
+                .BindConfiguration("RabbitMqConnectionConfiguration")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             return services;
@@ -37,7 +39,7 @@ public static class ApplicationConfigurations
                     Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                 options.TimestampFormat = "[yyyy/MM/dd HH:mm:ss.fff UTC] ";
                 options.SingleLine = true;
-                options.IncludeScopes = true;
+                options.IncludeScopes = false;
             });
             return loggingBuilder;
         }

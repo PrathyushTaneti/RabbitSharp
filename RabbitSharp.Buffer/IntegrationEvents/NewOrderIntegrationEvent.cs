@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using RabbitSharp.Publisher.Attributes;
+using RabbitSharp.Buffer.Attributes;
 
-namespace RabbitSharp.Publisher.IntegrationEvents;
+namespace RabbitSharp.Buffer.IntegrationEvents;
 
 [IntegrationEvent("arm.direct.rabbitsharp", "arm.direct.rabbitsharp.orders", "arm.direct.rabbitsharp.orders")]
 public sealed record NewOrderIntegrationEvent(

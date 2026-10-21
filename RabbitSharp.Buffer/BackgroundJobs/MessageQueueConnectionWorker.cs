@@ -1,8 +1,9 @@
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using RabbitSharp.Publisher.Configurations;
+using RabbitSharp.Buffer.Configurations;
 
-namespace RabbitSharp.Publisher.HostedServices;
+namespace RabbitSharp.Buffer.BackgroundJobs;
 
 public sealed class MessageQueueConnectionWorker(
     IOptions<RabbitMqConnectionConfiguration> options,

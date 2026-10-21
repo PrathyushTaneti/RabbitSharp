@@ -1,3 +1,4 @@
+using RabbitSharp.Buffer.Configurations;
 using RabbitSharp.Subscriber.Configurations;
 
 namespace RabbitSharp.Subscriber;
@@ -8,7 +9,7 @@ internal class Program
     {
         HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
         {
-            hostApplicationBuilder.Services.AddConfigurations().ConfigureHostOptions();
+            hostApplicationBuilder.Services.AddConfigurations().ConfigureHostOptions().AddMessageQueue();
             hostApplicationBuilder.Logging.ConfigureConsoleLogging();
         }
 

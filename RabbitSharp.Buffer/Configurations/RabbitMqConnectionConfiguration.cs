@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RabbitSharp.Publisher.Configurations;
+namespace RabbitSharp.Buffer.Configurations;
 
 public sealed class RabbitMqConnectionConfiguration
 {

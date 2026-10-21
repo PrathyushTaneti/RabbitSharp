@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace RabbitSharp.Publisher.Configurations;
+namespace RabbitSharp.Buffer.Configurations;
 
 /*
     Update your class to use TaskCompletionSource. This allows the hosted service to "signal"
@@ -15,8 +15,11 @@ public sealed class MessageQueueConnectionBuilder
     public Task<IConnection> Connection => _connectionCompletionSource.Task;
     public Task<IChannel> Channel => _channelCompletionSource.Task;
 
-    internal void SetConnection(IConnection connection) => _connectionCompletionSource.TrySetResult(connection);
-    internal void SetChannel(IChannel channel) => _channelCompletionSource.TrySetResult(channel);
+    internal void SetConnection(IConnection connection)
+        => _connectionCompletionSource.TrySetResult(connection);
+
+    internal void SetChannel(IChannel channel)
+        => _channelCompletionSource.TrySetResult(channel);
 
     internal void SetException(Exception exception)
     {

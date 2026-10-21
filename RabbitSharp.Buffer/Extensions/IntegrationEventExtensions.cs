@@ -1,10 +1,10 @@
 using System.Reflection;
-using RabbitSharp.Publisher.Attributes;
-using RabbitSharp.Publisher.IntegrationEvents;
+using RabbitSharp.Buffer.Attributes;
+using RabbitSharp.Buffer.IntegrationEvents;
 
-namespace RabbitSharp.Publisher.Utilities;
+namespace RabbitSharp.Buffer.Extensions;
 
-public static class IntegrationEventHelper
+public static class IntegrationEventExtensions
 {
     extension(IIntegrationEvent integrationEventntegrationEvent)
     {

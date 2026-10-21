@@ -1,5 +1,4 @@
-using RabbitSharp.Publisher.HostedServices;
-using RabbitSharp.Publisher.Publishers;
+using RabbitSharp.Buffer.Configurations;
 
 namespace RabbitSharp.Publisher.Configurations;
 
@@ -33,9 +32,7 @@ public static class ApplicationConfigurations
 
         public IServiceCollection AddConnection()
         {
-            services.AddSingleton<MessageQueueConnectionBuilder>();
-            services.AddHostedService<MessageQueueConnectionWorker>();
-            services.AddScoped<IPublisherService, PublisherService>();
+            services.AddMessageQueue();
             return services;
         }
     }
@@ -50,7 +47,7 @@ public static class ApplicationConfigurations
                     Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                 options.TimestampFormat = "[yyyy/MM/dd HH:mm:ss.fff UTC] ";
                 options.SingleLine = true;
-                options.IncludeScopes = true;
+                options.IncludeScopes = false;
             });
             return loggingBuilder;
         }
