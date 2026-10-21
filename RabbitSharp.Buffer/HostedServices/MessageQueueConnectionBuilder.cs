@@ -1,14 +1,19 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitSharp.Buffer.Configurations;
 
-namespace RabbitSharp.Buffer.BackgroundJobs;
+namespace RabbitSharp.Buffer.HostedServices;
 
-public sealed class MessageQueueConnectionWorker(
+[ExcludeFromCodeCoverage]
+public sealed class MessageQueueConnectionBuilder(
     IOptions<RabbitMqConnectionConfiguration> options,
-    MessageQueueConnectionBuilder messageQueueConnectionBuilder) : IHostedLifecycleService
+    Configurations.MessageQueueConnectionFactory messageQueueConnectionBuilder,
+    ILogger<MessageQueueConnectionBuilder> logger) : IHostedLifecycleService
 {
+    private readonly ILogger<MessageQueueConnectionBuilder> _logger = logger;
     private IConnection? _connection;
     private IChannel? _channel;
 
@@ -27,7 +32,7 @@ public sealed class MessageQueueConnectionWorker(
     {
         try
         {
-            ConnectionFactory connectionFactory = new ConnectionFactory()
+            ConnectionFactory connectionFactory = new()
             {
                 HostName = _rabbitMqConnectionConfiguration.HostName,
                 UserName = _rabbitMqConnectionConfiguration.UserName,
@@ -36,8 +41,11 @@ public sealed class MessageQueueConnectionWorker(
                 VirtualHost = _rabbitMqConnectionConfiguration.VirtualHost
             };
 
+            CreateChannelOptions channelOptions = new(publisherConfirmationsEnabled: true,
+                publisherConfirmationTrackingEnabled: true);
+
             _connection = await connectionFactory.CreateConnectionAsync(cancellationToken: cancellationToken);
-            _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
+            _channel = await _connection.CreateChannelAsync(channelOptions, cancellationToken: cancellationToken);
 
             foreach (ExchangeMetadata exchangeMetadata in _rabbitMqConnectionConfiguration.ExchangeMetadata)
             {

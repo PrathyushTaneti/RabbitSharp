@@ -1,11 +1,19 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitSharp.Buffer.Configurations;
 
-namespace RabbitSharp.Buffer.BaseSubscriber;
+namespace RabbitSharp.Buffer.Subscriber;
 
-public sealed class IntegrationEventBaseSubscriber(MessageQueueConnectionBuilder messageQueueConnectionBuilder)
+public interface IIntegrationEventBaseSubscriber
+{
+    public Task<(IChannel, AsyncEventingBasicConsumer)> Subscribe();
+}
+
+[ExcludeFromCodeCoverage]
+public sealed class IntegrationEventBaseSubscriber(MessageQueueConnectionFactory messageQueueConnectionBuilder)
     : IIntegrationEventBaseSubscriber
 {
     public async Task<(IChannel, AsyncEventingBasicConsumer)> Subscribe()
@@ -30,7 +38,3 @@ public sealed class IntegrationEventBaseSubscriber(MessageQueueConnectionBuilder
     }
 }
 
-public interface IIntegrationEventBaseSubscriber
-{
-    public Task<(IChannel, AsyncEventingBasicConsumer)> Subscribe();
-}

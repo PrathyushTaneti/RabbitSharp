@@ -5,17 +5,19 @@ namespace RabbitSharp.Subscriber;
 
 internal class Program
 {
-    public static async Task Main(string[] args)
+    public static async Task Main(string[] args) => await CreateApplicationHost(args).RunAsync();
+
+    private static IHost CreateApplicationHost(string[] args)
     {
         HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
         {
-            hostApplicationBuilder.Services.AddConfigurations().ConfigureHostOptions().AddMessageQueue();
-            hostApplicationBuilder.Logging.ConfigureConsoleLogging();
+            hostApplicationBuilder.Services
+                .AddConfigurations()
+                .ConfigureHostOptions()
+                .AddMessageQueue();
+            hostApplicationBuilder.Logging
+                .ConfigureConsoleLogging();
         }
-
-        IHost host = hostApplicationBuilder.Build();
-        {
-            await host.RunAsync();
-        }
+        return hostApplicationBuilder.Build();
     }
 }

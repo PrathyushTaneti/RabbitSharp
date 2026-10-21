@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using RabbitMQ.Client;
 
 namespace RabbitSharp.Buffer.Configurations;
@@ -7,7 +8,9 @@ namespace RabbitSharp.Buffer.Configurations;
     when the connection and channel are ready, while keeping your properties as Task objects
     that other services can await
 */
-public sealed class MessageQueueConnectionBuilder
+
+[ExcludeFromCodeCoverage]
+public sealed class MessageQueueConnectionFactory
 {
     private readonly TaskCompletionSource<IConnection> _connectionCompletionSource = new();
     private readonly TaskCompletionSource<IChannel> _channelCompletionSource = new();

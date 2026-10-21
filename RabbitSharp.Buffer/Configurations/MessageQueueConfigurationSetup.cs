@@ -1,18 +1,19 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
-using RabbitSharp.Buffer.BackgroundJobs;
-using RabbitSharp.Buffer.BasePublisher;
-using RabbitSharp.Buffer.BaseSubscriber;
+using RabbitSharp.Buffer.Publisher;
+using RabbitSharp.Buffer.Subscriber;
 
 namespace RabbitSharp.Buffer.Configurations;
 
-public static class MessageQueueConfiguration
+[ExcludeFromCodeCoverage]
+public static class MessageQueueConfigurationSetup
 {
     extension(IServiceCollection serviceCollection)
     {
         public IServiceCollection AddMessageQueue()
         {
-            serviceCollection.AddSingleton<MessageQueueConnectionBuilder>();
-            serviceCollection.AddHostedService<MessageQueueConnectionWorker>();
+            serviceCollection.AddSingleton<MessageQueueConnectionFactory>();
+            serviceCollection.AddHostedService<HostedServices.MessageQueueConnectionBuilder>();
             serviceCollection.AddScoped<IIntegrationEventBasePublisher, IntegrationEventBasePublisher>();
             serviceCollection.AddScoped<IIntegrationEventBaseSubscriber, IntegrationEventBaseSubscriber>();
             return serviceCollection;

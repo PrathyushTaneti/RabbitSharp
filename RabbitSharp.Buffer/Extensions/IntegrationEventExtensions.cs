@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using RabbitSharp.Buffer.Attributes;
 using RabbitSharp.Buffer.IntegrationEvents;
 
 namespace RabbitSharp.Buffer.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class IntegrationEventExtensions
 {
     extension(IIntegrationEvent integrationEventntegrationEvent)

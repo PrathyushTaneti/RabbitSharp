@@ -5,7 +5,9 @@ using RabbitSharp.Buffer.Configurations;
 
 namespace RabbitSharp.Subscriber;
 
-public class Worker(ILogger<Worker> logger, MessageQueueConnectionBuilder messageQueueConnectionBuilder)
+public sealed class Worker(
+    ILogger<Worker> logger,
+    MessageQueueConnectionFactory messageQueueConnectionBuilder)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

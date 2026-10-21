@@ -16,7 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utilities\" />
+    <Compile Remove="Utilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Utilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Utilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Utilities\**" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -7,7 +7,7 @@ using RabbitSharp.Buffer.Configurations;
 using RabbitSharp.Buffer.Extensions;
 using RabbitSharp.Buffer.IntegrationEvents;
 
-namespace RabbitSharp.Buffer.BasePublisher;
+namespace RabbitSharp.Buffer.Publisher;
 
 public interface IIntegrationEventBasePublisher
 {
@@ -15,8 +15,9 @@ public interface IIntegrationEventBasePublisher
         IIntegrationEvent;
 }
 
+[ExcludeFromCodeCoverage]
 public class IntegrationEventBasePublisher(
-    MessageQueueConnectionBuilder connectionBuilder,
+    MessageQueueConnectionFactory connectionBuilder,
     ILogger<IntegrationEventBasePublisher> logger)
     : IIntegrationEventBasePublisher
 {
@@ -48,8 +49,7 @@ public class IntegrationEventBasePublisher(
             logger.LogInformation("{logPrefix} Publishing Event To Exchange : {exchange}", logPrefix,
                 integrationEventMetadata.ExchangeName);
 
-            string message = JsonSerializer.Serialize(value: eventMessage);
-            byte[] body = Encoding.UTF8.GetBytes(s: message);
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(value: eventMessage);
 
             await (await connectionBuilder.Channel)
                 .BasicPublishAsync(

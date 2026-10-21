@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RabbitSharp.Buffer.Configurations;
 
+[ExcludeFromCodeCoverage]
 public sealed class RabbitMqConnectionConfiguration
 {
     [Required] public string HostName { get; set; } = string.Empty;
@@ -17,6 +19,7 @@ public sealed class RabbitMqConnectionConfiguration
     [Required] public List<ExchangeMetadata> ExchangeMetadata { get; set; } = new();
 }
 
+[ExcludeFromCodeCoverage]
 public sealed class ExchangeMetadata
 {
     [Required] public string ExchangeName { get; set; } = string.Empty;
@@ -26,6 +29,7 @@ public sealed class ExchangeMetadata
     [Required] public List<Queue> Queues { get; set; } = new();
 }
 
+[ExcludeFromCodeCoverage]
 public sealed class Queue
 {
     [Required] public string QueueName { get; set; } = string.Empty;

@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
-using RabbitSharp.Buffer.BasePublisher;
 using RabbitSharp.Buffer.IntegrationEvents;
+using RabbitSharp.Buffer.Publisher;
 
 namespace RabbitSharp.Publisher.Endpoints;
 
